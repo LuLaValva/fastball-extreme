@@ -1,0 +1,66 @@
+<main>
+  <for|level| from=1 to=40>
+    <local-let/deaths=false key=`level-${level}-deaths`/>
+    <local-let/victory=false key=`level-${level}-victory`/>
+    <a
+      href=`/level/${level}`
+      class={
+        completed: victory,
+      }
+    >
+      ${level}
+      <if=deaths>
+        <span class="deaths">
+          ☠️ ${deaths}
+        </span>
+      </if>
+    </a>
+  </for>
+</main>
+
+<style>
+  main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+
+    > a {
+      width: 6rem;
+      height: 6rem;
+      border-radius: 50%;
+      font-size: 2rem;
+      color: white;
+      text-decoration: none;
+      background-image: radial-gradient(
+        circle at 75% 25%,
+        rgb(197, 0, 0) 0%,
+        rgb(123, 0, 0) 100%
+      );
+      box-shadow: 0 0 15px black;
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
+      &:hover,
+      &:focus {
+        transform: scale(1.1);
+      }
+
+      &.completed {
+        background-image: radial-gradient(
+          circle at 75% 25%,
+          rgb(0, 197, 72) 0%,
+          rgb(0, 123, 45) 100%
+        );
+      }
+
+      > .deaths {
+        font-size: 0.4em;
+      }
+    }
+  }
+</style>

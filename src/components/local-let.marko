@@ -1,0 +1,49 @@
+export interface Input<T> {
+  value: T;
+  key: string;
+}
+static declare global {
+  interface WindowEventMap {
+    "local-storage-update": CustomEvent<StorageEvent>;
+  }
+}
+
+<let/internalValue=input.value/>
+
+<script>
+  const existingValue = localStorage.getItem(input.key);
+  if (existingValue) {
+    internalValue = JSON.parse(existingValue);
+  }
+  /** TODO(hoisting bug): this should happen automatically */
+  const input_key = input.key;
+  const handleStorageChange = (e: StorageEvent) => {
+    if (e.key === input_key) {
+      internalValue = JSON.parse(e.newValue ?? "");
+    }
+  };
+  window.addEventListener("storage", handleStorageChange, {
+    signal: $signal,
+  });
+  window.addEventListener(
+    "local-storage-update",
+    (e) => handleStorageChange(e.detail),
+    {
+      signal: $signal,
+    },
+  );
+</script>
+
+<return=internalValue valueChange(newValue) {
+  newValue = JSON.stringify(newValue);
+  localStorage.setItem(input.key, newValue);
+  window.dispatchEvent(
+    new CustomEvent("local-storage-update", {
+      detail: {
+        key: input.key,
+        newValue,
+        storageArea: localStorage,
+      },
+    }),
+  );
+}/>

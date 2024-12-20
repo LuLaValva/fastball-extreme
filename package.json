@@ -1,0 +1,26 @@
+{
+  "name": "fastball",
+  "description": "The default Marko starter app with TypeScript",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@types/node": "^22.10.2",
+    "marko": "^6.0.0-3.13",
+    "vite-plugin-static-copy": "^2.2.0"
+  },
+  "devDependencies": {
+    "@marko/run": "^0.5.11"
+  },
+  "overrides": {
+    "@marko/run": {
+      "marko": "^6.0.0-3.13"
+    }
+  },
+  "private": true,
+  "scripts": {
+    "dev": "marko-run",
+    "build": "marko-run build",
+    "preview": "marko-run preview",
+    "start": "node --enable-source-maps ./dist/index.mjs"
+  }
+}

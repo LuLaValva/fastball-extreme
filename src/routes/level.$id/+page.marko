@@ -1,0 +1,96 @@
+<button
+  aria-label="menu"
+  class="hamburger"
+  popovertarget="nav-popover"
+  popovertargetaction="show"
+>
+  <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M2 3H10M2 6H10M2 9H10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</button>
+<nav id="nav-popover" popover>
+  <a aria-label="exit level" href="/levels">
+    <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M3.5 7.5h4a1 1 0 000-3h-4l1-1m-1 1 1 1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </a>
+  <button aria-label="restart">
+    <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M 8.25 4.25 a 3 3 0 1 1 -2 -1 l -1 -1 m 1 1 l -1 1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+</nav>
+
+<local-let/deaths=0 key=`level-${$global.params.id}-deaths`/>
+<local-let/victory=false key=`level-${$global.params.id}-victory`/>
+
+<div class="stats">
+  <h1 class="level-title">
+    ${victory && "🌟"} Level ${$global.params.id}
+  </h1>
+  <span class="deaths">
+    ☠️ ${deaths}
+  </span>
+</div>
+
+<game tiles=$global.tiles/>
+
+<style>
+  .stats {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    text-align: right;
+    color: white;
+  }
+
+  #nav-popover {
+    background-color: transparent;
+    border: none;
+  }
+
+  ::backdrop {
+    backdrop-filter: blur(3px);
+  }
+
+  button,
+  a {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    text-align: center;
+    align-content: center;
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+    padding: 0;
+    box-sizing: border-box;
+
+    > svg {
+      stroke: currentColor;
+    }
+  }
+
+  nav :is(button, a) {
+    width: 5rem;
+    height: 5rem;
+    border: 1px solid black;
+    backdrop-filter: brightness(2);
+    margin: 0.5rem;
+  }
+</style>
