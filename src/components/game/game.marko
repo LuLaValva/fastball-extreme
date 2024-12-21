@@ -10,6 +10,7 @@ export enum TileType {
 }
 export interface Input {
   tiles: TileType[][];
+  onVictory: () => void;
 }
 static declare global {
   namespace Marko {
@@ -41,6 +42,14 @@ client function now() {
 let/lastFrame=null as number | null
 let/jumping=false
 
+const/startOrJump() {
+  if (lastFrame === null) {
+    lastFrame = now();
+  } else {
+    jumping = true;
+  }
+}
+
 script
   --
   document.addEventListener(
@@ -53,11 +62,7 @@ script
         return;
       }
       if (e.key === " ") {
-        if (lastFrame === null) {
-          lastFrame = now();
-        } else {
-          jumping = true;
-        }
+        startOrJump();
       }
     },
     {
@@ -70,34 +75,6 @@ script
       if (e.key === " ") {
         jumping = false;
       }
-    },
-    {
-      signal: $signal,
-    },
-  );
-  document.addEventListener(
-    "pointerdown",
-    (e) => {
-      if (
-        e.target instanceof Element &&
-        e.target.matches("button, [role='button'], input, select, textarea")
-      ) {
-        return;
-      }
-      if (lastFrame === null) {
-        lastFrame = now();
-      } else {
-        jumping = true;
-      }
-    },
-    {
-      signal: $signal,
-    },
-  );
-  document.addEventListener(
-    "pointerup",
-    (e) => {
-      jumping = false;
     },
     {
       signal: $signal,
@@ -169,7 +146,7 @@ script
         case TileType.Goal:
           gameTime = null;
           victory = true;
-          window.location.href = "/level/" + (+($global.params.id ?? 0) + 1);
+          input.onVictory();
           break;
         case TileType.DirectLeft:
           velX = -BASE_SPEED;
@@ -187,7 +164,12 @@ script
   }
   --
 
-div.game
+div.game [
+  onPointerdown=startOrJump
+  onPointerup() {
+    jumping = false;
+  }
+]
   div.view style={ "--x": ballPos[0], "--y": ballPos[1] }
     div [
       class={
@@ -227,6 +209,8 @@ style
     position: fixed;
     inset: 0;
     z-index: -1;
+    user-select: none;
+    view-transition-name: level;
   }
 
   .game .view {
@@ -272,6 +256,8 @@ style
     &.moving {
       animation: spin linear infinite;
     }
+
+    view-transition-name: ball;
   }
 
   .spikes {
@@ -284,6 +270,52 @@ style
     }
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  ::view-transition-old(ball) {
+    animation: 250ms ease-out both ball-exit;
+  }
+  ::view-transition-new(ball) {
+    animation: 250ms 1s ease-out both ball-exit reverse;
+  }
+  @keyframes ball-exit {
+    from {
+      translate: 0 0;
+    }
+    to {
+      translate: 0 -70vh;
+    }
+  }
+
+  ::view-transition-old(level) {
+    animation: 1s linear both slide-to-left;
+  }
+  ::view-transition-new(level) {
+    animation: 1s linear both slide-from-right;
+  }
+  @keyframes slide-to-left {
+    from {
+      translate: 0 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    to {
+      translate: -200% 0;
+      opacity: 0;
+    }
+  }
+  @keyframes slide-from-right {
+    from {
+      translate: 200% 0;
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    to {
+      translate: 0 0;
     }
   }
   --

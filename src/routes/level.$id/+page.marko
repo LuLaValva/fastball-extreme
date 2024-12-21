@@ -44,8 +44,21 @@
     ☠️ ${deaths}
   </span>
 </div>
-
-<game tiles=$global.tiles/>
+<const/nextLevel="/level/" + (+($global.params.id ?? 0) + 1)/>
+<link rel="prefetch" href=nextLevel>
+<game
+  tiles=$global.tiles
+  onVictory() {
+    if ("navigation" in window) {
+      (window.navigation as any).navigate(nextLevel, {
+        prerender: true,
+      });
+    } else {
+      // Fallback for browsers without Navigation API
+      window.location.href = nextLevel;
+    }
+  }
+/>
 
 <style>
   .stats {

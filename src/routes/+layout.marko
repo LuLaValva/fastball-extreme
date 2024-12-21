@@ -4,6 +4,7 @@ import logo from "../components/game/assets/ball.png?url";
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="view-transition" content="same-origin">
     <link rel="icon" href=logo type="image/png" sizes="16x16">
     <meta name="description" content="Fastball EXTREME">
     <title>Fastball EXTREME</title>
@@ -14,6 +15,9 @@ import logo from "../components/game/assets/ball.png?url";
 </html>
 
 <style>
+  @view-transition {
+    navigation: auto;
+  }
   :root {
     font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
       "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
