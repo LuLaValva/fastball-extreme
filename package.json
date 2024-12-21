@@ -23,6 +23,6 @@
     "dev": "marko-run",
     "build": "marko-run build",
     "preview": "marko-run preview",
-    "deploy": "marko-run build && gh-pages --nojekyll -d dist/public"
+    "deploy": "marko-run build && gh-pages --nojekyll -d dist/public --cname fastball.lavalva.dev"
   }
 }

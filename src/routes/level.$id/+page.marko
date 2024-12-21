@@ -22,10 +22,19 @@
       />
     </svg>
   </a>
-  <button aria-label="restart">
+  <button
+    aria-label="fullscreen"
+    onClick() {
+      document.documentElement.requestFullscreen().catch((err) => {
+        alert(
+          `Error attempting to enable fullscreen mode: ${err.message} (${err.name})`,
+        );
+      });
+    }
+  >
     <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
-        d="M 8.25 4.25 a 3 3 0 1 1 -2 -1 l -1 -1 m 1 1 l -1 1"
+        d="m 2.5 7.5 v 2 h 2 m 3 0 h 2 v -2 m 0 -3 v -2 h -2 m -3 0 h -2 v 2"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
@@ -75,7 +84,7 @@
   }
 
   ::backdrop {
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(2vmin);
   }
 
   button,
