@@ -1,23 +1,38 @@
-# Thanks for checking out Marko
+# Fastball EXTREME
 
-# Installation
+## Running Locally
 
 ```
-npm init marko -- --template basic-tags
-cd marko-app
-npm install
+npm i
 npm run dev
 ```
 
-## Overview
+## Making a Level
 
-This project is powered by [@marko/run](https://github.com/marko-js/run).
+All levels are in `src/routes/level.$id/levels/`.
 
-- Run `npm run dev` to start the development server
-- Run `npm run build` to build a production-ready node.js server
-- Run `npm run preview` to run the production server
+Level format:
 
-## Adding Pages
+| Symbol | Meaning                  |
+| :----: | :----------------------- |
+|  `O`   | Start Position (ball)    |
+|  `T`   | Ground Tile              |
+|  `v`   | Spikes                   |
+|  `(`   | Change Direction (left)  |
+|  `)`   | Change Direction (right) |
+|  `_`   | Spring                   |
 
-Pages map to the directory structure. You can add additional pages by creating files/directories under `src/routes` with `+page.marko` files.  Learn more in the [`@marko/run` docs](https://github.com/marko-js/run/#file-based-routing).
+All lines must be the same length, and end with `|`.
 
+Example level:
+
+```
+O               |
+TTTvvTTT        |
+  TTTT          |
+                |
+                |
+Y               |
+TTTTT          (|
+      TTTT  TTTT|
+```
