@@ -16,6 +16,8 @@ const typeMap = {
   "(": TileType.DirectLeft,
   ")": TileType.DirectRight,
   _: TileType.Spring,
+  "<": TileType.SpeedLeft,
+  ">": TileType.SpeedRight,
 };
 
 export default (async function (context, next) {

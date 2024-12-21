@@ -7,6 +7,8 @@ export enum TileType {
   DirectLeft,
   DirectRight,
   Spring,
+  SpeedRight,
+  SpeedLeft,
 }
 export interface Input {
   tiles: TileType[][];
@@ -149,13 +151,31 @@ script
           input.onVictory();
           break;
         case TileType.DirectLeft:
-          velX = -BASE_SPEED;
+          velX = -Math.abs(velX);
           break;
         case TileType.DirectRight:
-          velX = BASE_SPEED;
+          velX = Math.abs(velX);
           break;
         case TileType.Spring:
           velY = GRAVITY * -26;
+          break;
+        case TileType.SpeedLeft:
+          if (
+            (Math.floor(ballPos[1] + 0.5) !== Math.floor(nextPos[1] + 0.5) ||
+              Math.floor(ballPos[0] + 0.5) !== Math.floor(nextPos[0] + 0.5)) &&
+            velX !== BASE_SPEED
+          ) {
+            velX -= BASE_SPEED / 2;
+          }
+          break;
+        case TileType.SpeedRight:
+          if (
+            (Math.floor(ballPos[1] + 0.5) !== Math.floor(nextPos[1] + 0.5) ||
+              Math.floor(ballPos[0] + 0.5) !== Math.floor(nextPos[0] + 0.5)) &&
+            velX !== -BASE_SPEED
+          ) {
+            velX += BASE_SPEED / 2;
+          }
           break;
       }
       ballPos = nextPos;
@@ -201,6 +221,10 @@ div.game [
         div.right-sign style={ "--x": x, "--y": y }
       else if=type === TileType.Spring
         div.spring style={ "--x": x, "--y": y }
+      else if=type === TileType.SpeedLeft
+        div.speed-left style={ "--x": x, "--y": y }
+      else if=type === TileType.SpeedRight
+        div.speed-right style={ "--x": x, "--y": y }
       html-comment
 
 style
@@ -247,6 +271,14 @@ style
 
   .spring {
     background-image: url("assets/spring.png");
+  }
+
+  .speed-left {
+    background-image: url("assets/speed-left.png");
+  }
+
+  .speed-right {
+    background-image: url("assets/speed-right.png");
   }
 
   .ball {

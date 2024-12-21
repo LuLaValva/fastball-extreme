@@ -13,14 +13,16 @@ All levels are in `src/routes/level.$id/levels/`.
 
 Level format:
 
-| Symbol | Meaning                  |
-| :----: | :----------------------- |
-|  `O`   | Start Position (ball)    |
-|  `T`   | Ground Tile              |
-|  `v`   | Spikes                   |
-|  `(`   | Change Direction (left)  |
-|  `)`   | Change Direction (right) |
-|  `_`   | Spring                   |
+| Symbol | Meaning                    |
+| :----: | :------------------------- |
+|  `O`   | Start Position (ball)      |
+|  `T`   | Ground Tile                |
+|  `v`   | Spikes                     |
+|  `(`   | Change Direction (left)    |
+|  `)`   | Change Direction (right)   |
+|  `_`   | Spring                     |
+|  `<`   | Speed Up/Slow Down (Left)  |
+|  `>`   | Speed Up/Slow Down (Right) |
 
 All lines must be the same length, and end with `|`.
 
