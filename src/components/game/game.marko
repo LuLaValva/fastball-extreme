@@ -250,10 +250,11 @@ style
     left: calc(var(--x) * 5vmax);
     top: calc(var(--y) * 5vmax);
     background-size: cover;
+    image-rendering: pixelated;
   }
 
   .tile {
-    background-image: url("assets/tile.png");
+    background-image: url("assets/ground.png");
     z-index: -1;
   }
 
@@ -293,7 +294,7 @@ style
   }
 
   .spikes {
-    background-image: url("assets/spikes.png");
+    background-image: url("assets/fire.gif");
   }
 
   @keyframes spin {

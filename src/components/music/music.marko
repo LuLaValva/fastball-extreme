@@ -1,0 +1,15 @@
+import music from "./theme.mp3?url";
+<audio/song src=music loop style="display: none"/>
+
+<script>
+  const events = ["pointerdown", "keydown"];
+  function startAudio() {
+    song().play();
+    events.forEach((event) => {
+      document.removeEventListener(event, startAudio);
+    });
+  }
+  events.forEach((event) => {
+    document.addEventListener(event, startAudio);
+  });
+</script>
