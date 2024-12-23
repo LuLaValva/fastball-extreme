@@ -7,7 +7,19 @@ const urlsToCache = [
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache)),
+    caches
+      .open(CACHE_NAME)
+      .then((cache) =>
+        Promise.all(
+          urlsToCache.map((url) =>
+            cache
+              .add(url)
+              .catch((err) =>
+                console.warn(`Failed to cache ${url}: ${err.message}`),
+              ),
+          ),
+        ),
+      ),
   );
 });
 
