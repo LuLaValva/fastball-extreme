@@ -16,8 +16,8 @@ Level format:
 | Symbol | Meaning                    |
 | :----: | :------------------------- |
 |  `O`   | Start Position (ball)      |
-|  `T`   | Ground Tile                |
-|  `v`   | Spikes                     |
+|  `T`   | Ground                     |
+|  `v`   | Fire                       |
 |  `(`   | Change Direction (left)    |
 |  `)`   | Change Direction (right)   |
 |  `_`   | Spring                     |

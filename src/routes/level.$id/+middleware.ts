@@ -9,9 +9,9 @@ declare module "@marko/run" {
 
 const typeMap = {
   " ": TileType.Empty,
-  T: TileType.Tile,
+  T: TileType.Ground,
   O: TileType.Start,
-  v: TileType.Spikes,
+  v: TileType.Fire,
   Y: TileType.Goal,
   "(": TileType.DirectLeft,
   ")": TileType.DirectRight,

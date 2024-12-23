@@ -1,7 +1,7 @@
 export enum TileType {
   Empty,
-  Tile,
-  Spikes,
+  Ground,
+  Fire,
   Start,
   Goal,
   DirectLeft,
@@ -10,6 +10,16 @@ export enum TileType {
   SpeedRight,
   SpeedLeft,
 }
+static const tileClasses: { [type in TileType]?: string } = {
+  [TileType.Ground]: "ground",
+  [TileType.Fire]: "fire",
+  [TileType.Goal]: "goal",
+  [TileType.DirectLeft]: "left-sign",
+  [TileType.DirectRight]: "right-sign",
+  [TileType.Spring]: "spring",
+  [TileType.SpeedLeft]: "speed-left",
+  [TileType.SpeedRight]: "speed-right",
+};
 export interface Input {
   tiles: TileType[][];
   onVictory: () => void;
@@ -108,7 +118,7 @@ script
       if (
         input.tiles[Math.floor(nextPos[1] + 1)]?.[
           Math.floor(nextPos[0] + 0.5)
-        ] === TileType.Tile
+        ] === TileType.Ground
       ) {
         velY = jumping ? GRAVITY * -16 : 0;
         nextPos[1] = Math.floor(nextPos[1]);
@@ -121,18 +131,18 @@ script
         nextPos[1] > input.tiles.length + 10 ||
         input.tiles[Math.floor(nextPos[1] + 0.5)]?.[
           Math.floor(nextPos[0] + 1)
-        ] === TileType.Tile ||
+        ] === TileType.Ground ||
         input.tiles[Math.floor(nextPos[1] + 0.8)]?.[
           Math.floor(nextPos[0] + 0.8)
-        ] === TileType.Tile ||
+        ] === TileType.Ground ||
         input.tiles[Math.floor(nextPos[1])]?.[Math.floor(nextPos[0] + 0.5)] ===
-          TileType.Tile ||
+          TileType.Ground ||
         input.tiles[Math.floor(nextPos[1] + 0.2)]?.[
           Math.floor(nextPos[0] + 0.8)
-        ] === TileType.Tile ||
+        ] === TileType.Ground ||
         input.tiles[Math.floor(nextPos[1] + 0.5)]?.[
           Math.floor(nextPos[0] + 0.5)
-        ] === TileType.Spikes
+        ] === TileType.Fire
       ) {
         nextPos = [...startPos];
         gameTime = null;
@@ -191,16 +201,10 @@ div.game [
   }
 ]
   div.view style={ "--x": ballPos[0], "--y": ballPos[1] }
-    div [
-      class={
-        ball: true,
-        moving: lastFrame !== null,
-      }
-      style={
-        "animation-duration": 0.15 / Math.abs(velX) + "s",
-        "animation-direction": velX < 0 ? "reverse" : undefined,
-      }
-    ]
+    div class={
+      ball: true,
+      moving: lastFrame !== null,
+    }
 
     for|{ x, y, type }| of=input.tiles.flatMap((row, y) =>
       row.flatMap((type, x) =>
@@ -209,22 +213,8 @@ div.game [
           : [{ x, y, type }],
       ),
     )
-      if=type === TileType.Tile
-        div.tile style={ "--x": x, "--y": y }
-      else if=type === TileType.Spikes
-        div.spikes style={ "--x": x, "--y": y }
-      else if=type === TileType.Goal
-        div.goal style={ "--x": x, "--y": y }
-      else if=type === TileType.DirectLeft
-        div.left-sign style={ "--x": x, "--y": y }
-      else if=type === TileType.DirectRight
-        div.right-sign style={ "--x": x, "--y": y }
-      else if=type === TileType.Spring
-        div.spring style={ "--x": x, "--y": y }
-      else if=type === TileType.SpeedLeft
-        div.speed-left style={ "--x": x, "--y": y }
-      else if=type === TileType.SpeedRight
-        div.speed-right style={ "--x": x, "--y": y }
+      if=tileClasses[type]
+        div class=tileClasses[type] style={ "--x": x, "--y": y }
       html-comment
 
 style
@@ -253,7 +243,7 @@ style
     image-rendering: pixelated;
   }
 
-  .tile {
+  .ground {
     background-image: url("assets/ground.png");
     z-index: -1;
   }
@@ -286,24 +276,13 @@ style
     background-image: url("assets/ball.png");
     z-index: 1;
 
-    &.moving {
-      animation: spin linear infinite;
-    }
+    transform: rotate(calc(var(--x) * 45deg));
 
     view-transition-name: ball;
   }
 
-  .spikes {
+  .fire {
     background-image: url("assets/fire.gif");
-  }
-
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
   }
 
   ::view-transition-old(ball) {
