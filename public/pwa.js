@@ -2,7 +2,7 @@ const CACHE_NAME = "fastball-extreme-v0.0.1";
 const urlsToCache = [
   "/",
   "/levels/",
-  ...Array(40).map((_, i) => `/level/${i}`),
+  ...[...Array(40)].map((_, i) => `/level/${i}/`),
 ];
 
 self.addEventListener("install", (e) => {
