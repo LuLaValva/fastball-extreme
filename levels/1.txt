@@ -1,3 +1,3 @@
-O ...    ...    ... v ..... Y   (|
-TTTTTTvvTTTTT  TTTTTTTTTTTTTTTTTT|
-      TT                         |
+O ...    ...    ... v ..... Y|
+TTTTTTvvTTTTT  TTTTTTTTTTTTTT|
+      TT                     |
