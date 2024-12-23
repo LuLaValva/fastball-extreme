@@ -23,6 +23,7 @@ Level format:
 |  `_`   | Spring                     |
 |  `<`   | Speed Up/Slow Down (Left)  |
 |  `>`   | Speed Up/Slow Down (Right) |
+|  `.`   | Collectible                |
 
 All lines must be the same length, and end with `|`.
 

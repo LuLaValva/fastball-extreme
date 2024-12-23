@@ -18,6 +18,7 @@ const typeMap = {
   _: TileType.Spring,
   "<": TileType.SpeedLeft,
   ">": TileType.SpeedRight,
+  ".": TileType.Collectible,
 };
 
 export default (async function (context, next) {

@@ -9,6 +9,7 @@ export enum TileType {
   Spring,
   SpeedRight,
   SpeedLeft,
+  Collectible,
 }
 static const tileClasses: { [type in TileType]?: string } = {
   [TileType.Ground]: "ground",
@@ -19,6 +20,7 @@ static const tileClasses: { [type in TileType]?: string } = {
   [TileType.Spring]: "spring",
   [TileType.SpeedLeft]: "speed-left",
   [TileType.SpeedRight]: "speed-right",
+  [TileType.Collectible]: "collectible",
 };
 export interface Input {
   tiles: TileType[][];
@@ -97,10 +99,11 @@ script
 local-let/deaths=0 key=`level-${$global.params.id}-deaths`
 local-let/victory=false key=`level-${$global.params.id}-victory`
 static const GRAVITY = 0.015;
-static const BASE_SPEED = 0.1;
+static const BASE_SPEED = 2;
 
 let/velX=BASE_SPEED
 let/velY=0
+let/collected=({} as { [key: `${number},${number}`]: boolean })
 
 let/dummy=true
 static const FRAME_RATE = 1000 / 60;
@@ -110,9 +113,11 @@ script
     dummy = !dummy;
     const currentTime = now();
     let gameTime: number | null = lastFrame;
-    if (gameTime && currentTime - gameTime > FRAME_RATE) {
+    if (gameTime && currentTime - gameTime > FRAME_RATE * 30) {
+      gameTime = currentTime;
+    } else if (gameTime && currentTime - gameTime > FRAME_RATE) {
       gameTime += FRAME_RATE;
-      let nextPos = [ballPos[0] + velX, ballPos[1] + velY];
+      let nextPos = [ballPos[0] + velX * 0.05, ballPos[1] + velY];
 
       // ground collision
       if (
@@ -135,7 +140,7 @@ script
         input.tiles[Math.floor(nextPos[1] + 0.8)]?.[
           Math.floor(nextPos[0] + 0.8)
         ] === TileType.Ground ||
-        input.tiles[Math.floor(nextPos[1])]?.[Math.floor(nextPos[0] + 0.5)] ===
+        input.tiles[Math.floor(nextPos[1] + 0.5)]?.[Math.floor(nextPos[0])] ===
           TileType.Ground ||
         input.tiles[Math.floor(nextPos[1] + 0.2)]?.[
           Math.floor(nextPos[0] + 0.8)
@@ -149,6 +154,7 @@ script
         velX = BASE_SPEED;
         velY = 0;
         deaths++;
+        collected = {};
       }
       switch (
         input.tiles[Math.floor(nextPos[1] + 0.5)]?.[
@@ -171,8 +177,8 @@ script
           break;
         case TileType.SpeedLeft:
           if (
-            (Math.floor(ballPos[1] + 0.5) !== Math.floor(nextPos[1] + 0.5) ||
-              Math.floor(ballPos[0] + 0.5) !== Math.floor(nextPos[0] + 0.5)) &&
+            (Math.floor(ballPos[0] + 0.5) !== Math.floor(nextPos[0] + 0.5) ||
+              Math.floor(ballPos[1] + 0.5) !== Math.floor(nextPos[1] + 0.5)) &&
             velX !== BASE_SPEED
           ) {
             velX -= BASE_SPEED / 2;
@@ -180,11 +186,22 @@ script
           break;
         case TileType.SpeedRight:
           if (
-            (Math.floor(ballPos[1] + 0.5) !== Math.floor(nextPos[1] + 0.5) ||
-              Math.floor(ballPos[0] + 0.5) !== Math.floor(nextPos[0] + 0.5)) &&
+            (Math.floor(ballPos[0] + 0.5) !== Math.floor(nextPos[0] + 0.5) ||
+              Math.floor(ballPos[1] + 0.5) !== Math.floor(nextPos[1] + 0.5)) &&
             velX !== -BASE_SPEED
           ) {
             velX += BASE_SPEED / 2;
+          }
+          break;
+        case TileType.Collectible:
+          if (
+            Math.floor(ballPos[0] + 0.5) !== Math.floor(nextPos[0] + 0.5) ||
+            Math.floor(ballPos[1] + 0.5) !== Math.floor(nextPos[1] + 0.5)
+          ) {
+            collected = {
+              ...collected,
+              [`${Math.floor(nextPos[0] + 0.5)},${Math.floor(nextPos[1] + 0.5)}`]: true,
+            };
           }
           break;
       }
@@ -213,8 +230,12 @@ div.game [
           : [{ x, y, type }],
       ),
     )
-      if=tileClasses[type]
-        div class=tileClasses[type] style={ "--x": x, "--y": y }
+      const/tileClass=tileClasses[type]
+      if=tileClass
+        div [
+          class=[tileClass, collected[`${x},${y}`] && " collected"]
+          style={ "--x": x, "--y": y }
+        ]
       html-comment
 
 style
@@ -272,6 +293,10 @@ style
     background-image: url("assets/speed-right.png");
   }
 
+  .fire {
+    background-image: url("assets/fire.gif");
+  }
+
   .ball {
     background-image: url("assets/ball.png");
     z-index: 1;
@@ -281,8 +306,14 @@ style
     view-transition-name: ball;
   }
 
-  .fire {
-    background-image: url("assets/fire.gif");
+  .collectible {
+    background-image: url("assets/collectible.gif");
+
+    &.collected {
+      transition: 1s all;
+      transform: translateY(-5vmax) rotate(720deg) scale(1.5);
+      opacity: 0;
+    }
   }
 
   ::view-transition-old(ball) {

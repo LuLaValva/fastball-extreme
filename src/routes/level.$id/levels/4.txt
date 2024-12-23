@@ -1,19 +1,19 @@
-                             Y|
-                         TTTTT|
-                   TTTT       |
-             TTTT             |
+                          .. Y|
+                    ..   TTTTT|
+              ..   TTTT       |
+        ..   TTTT             |
        TTTT                   |
                               |
                               |
                               |
-)   _                         |
-TTTTTTT                       |
-         TTTT                 |
-               TTT            |
-                    TTT      (|
-                         TTTTT|
-                              |
-                              |
+) . _                         |
+TTTTTTT   ..                  |
+         TTTT   .             |
+               TTT   .        |
+                    TTT  ... (|
+                       . TTTTT|
+                       .      |
+                       .      |
                        _      |
-       )O          TTTTTT     |
+       )O   .....  TTTTTT     |
        TTTTTTTTTTT            |
