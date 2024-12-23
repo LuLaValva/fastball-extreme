@@ -10,6 +10,7 @@ export default defineConfig({
           src: "src/routes/level.$id/levels/*",
           dest: "levels",
         },
+        { src: "src/public", dest: "." },
       ],
     }),
     marko(),
