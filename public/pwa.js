@@ -1,4 +1,4 @@
-const CACHE_NAME = "fastball-extreme-v0.0.2";
+const CACHE_NAME = "fastball-extreme-v0.0.4";
 const urlsToCache = [
   "/",
   "/levels/",
