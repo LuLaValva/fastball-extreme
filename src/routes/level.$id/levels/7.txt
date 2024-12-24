@@ -1,7 +1,4 @@
-          ......      .... Y|
-         TTTTTTTT    TTTTTTT|
-                            |
-                            |
-                            |
-O     _ vv  v ... _       _ |
-TTTTTTTTTTTTTTTTTTTTTTTTTTTT|
+O .. v .        . vv .        . v .        . vv .. Y|
+TTTTTTTT ..  .. TTTTTT ..  .. TTTTT ..  .. TTTTTTTTT|
+        TTTvvTTT      TTTvvTTT     TTTvvTTT         |
+           TT            TT           TT            |
