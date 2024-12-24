@@ -1,7 +1,6 @@
-                Y|
-         TTTTTTTT|
-                 |
-                 |
-                 |
-O     _          |
-TTTTTTT          |
+              vvvvvvvv  |
+      .       TTTTTTTT  |
+      .                 |
+      .                 |
+O     _      ... _ ... Y|
+TTTTTTT    TTTTTTTTTTTTT|

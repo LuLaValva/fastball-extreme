@@ -1,2 +1,6 @@
- )   O         (    (     (        Y  |
-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT|
+O ...    .... vv ..   vvvvv |
+TTTTTT  TTTTTTTTTTT  TTTTTTT|
+                            |
+                            |
+    Y      .    ...    (    |
+    TTTT  TTT  TTTTTTTTT    |
